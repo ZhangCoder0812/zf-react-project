@@ -1,57 +1,47 @@
-import style from "./xxx.module.css";
-
+import React from "react";
+import ReactDOM from "react-dom";
 /* 
 
-  现在可以不用 import React from 'react' 原理weboack 的 ProvidePlugin
-  
-  在react中 把html结构当做一种数据类型
-
-  在html中 使用变量就 {} 包起来，里面可以是变量/表达式
-  
-  行内样式 style={{ color: "blue" }} 不能直接 style="color:blue" 因为会被
-  babel编译 没有处理这种形式
-
-  类型要写className 不能写 class 
-  
-  空标签 <> </>
- 
-  label中的for 变成 htmlFor
-
-  使用三元运算符 加载对应结构
-
-  循环 map
-
-  v-html -> dangerouslySetInnerHTML
+  事件；
+    
 
 */
 
-function App() {
-    let age = 1;
-    let attr = "name";
-    let str = <h1>xxxx</h1>;
-    let arr = [1, 2, 3, 4];
-    let obj = { name: "123" };
-    let t = "<h1>t</h1>";
+class App extends React.Component {
+  state = {
+    name: "xxx",
+  };
+  fn() {
+    console.log("fn");
+    console.log(this); // 下面不绑定this的话这里是 undefined
+    // 这个函数是react内部执行的 严格模式下是undefined
+    console.log(this.state.name);
+  }
+  fn2() {
+    // 下面写成箭头函数没有this 向上级作用域查找 找到render中this 即当前实例
+    console.log(this);
+    console.log(this.state.name);
+  }
+  fn3 = () => {
+    // 这里写成箭头函数 相当于在constructor中找this 即当前实例
+    console.log(this);
+    console.log(this.state.name);
+  };
+  fn4(...args) {
+    // 传参数 bind传参拿到的参数会自动增加一个react处理过的事件对象 bind传参事件对象永远在最后一项
+    console.log(args);
+  }
+  render() {
     return (
-        <>
-            <div className={"App " + style.App}>
-                Learn react
-                <div data-name={attr} style={{ color: "blue" }} className={"xxx " + attr}>
-                    {str}
-                </div>
-                <input type="checkbox" id="aaa"></input> <label htmlFor="aaa">aaa</label>
-                {age > 10 ? "大于10" : "小于10"}
-                <ul>
-                    {arr.map(item => {
-                        return <li key={item}>{item}</li>;
-                    })}
-                </ul>
-                {JSON.stringify(obj)}
-                {/*   {obj}  对象不能直接放结构里面 */}
-                <p dangerouslySetInnerHTML={{ __html: t }}></p>
-            </div>
-        </>
+      <div>
+        <button onClick={this.fn.bind(this)}>点击1</button>
+        <button onClick={() => this.fn2()}>点击2</button>
+        <button onClick={this.fn3}>点击3</button>
+        <button onClick={(e) => this.fn4(1, 2, e)}>点击4</button>
+        <button onClick={this.fn4.bind(this, 1, 2)}>点击4</button>
+      </div>
     );
+  }
 }
 
 export default App;
