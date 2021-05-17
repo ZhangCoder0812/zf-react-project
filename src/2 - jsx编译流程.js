@@ -1,34 +1,35 @@
-// 实现React ReactDOM 返回的是虚拟dom
+// 简单模拟实现React ReactDOM 返回的是虚拟dom
 
 // 模拟虚拟dom
 class Element {
-  constructor(type, props ,children){
-     this.type = type
-     this.props = props
-     this.children = children
+  constructor(type, props, children) {
+    this.type = type;
+    this.props = props;
+    this.children = children;
   }
-  render(){
-      // 负责把虚拟dom转为真实dom
-      let ele = document.createElement(this.type) // 创造一个真实的空的dom元素
-      // 处理属性
-      Object.keys(this.props).forEach(item=>[
-          ele.setAttribute(item,this.props[item])
-      ])
-      // 处理子节点
-      this.children.forEach(item=>{
-          // 子节点分两种情况 字符串 Element的实例
-          if(typeof item =='string'){
-              let textNode = document.createTextNode(item)
-              ele.appendChild(textNode)
-          }else{
-
-          }
-      })
-      return ele
+  // 负责把虚拟dom转为真实dom
+  render() {
+    let ele = document.createElement(this.type); // 创造一个真实的空的dom元素
+    // 添加属性
+    Object.keys(this.props).forEach((item) => [
+      ele.setAttribute(item, this.props[item]),
+    ]);
+    // 添加子节点
+    this.children.forEach((item) => {
+      // 子节点分两种情况 字符串/Element的实例
+      if (typeof item == "string") {
+        let textNode = document.createTextNode(item);
+        ele.appendChild(textNode);
+      } else {
+        // 如果是Element的实例 再调用render方法返回真实dom
+        ele.appendChild(item.render());
+      }
+    });
+    return ele;
   }
 }
 
-let Reatc = {
+let React = {
   createElement(type, props, ...children) {
     // 第三个参数及以后都是子节点
     return new Element(type, props, ...children);
@@ -36,15 +37,42 @@ let Reatc = {
 };
 
 let ReatcDOM = {
-  render(ele, container) {},
+  render(ele, container) {
+    // ele 虚拟dom 调用render生成真实dom
+    container.appendChild(ele.render());
+  },
 };
 
-function App() {
-  return (
-    <div>
-      <h1 style={{ color: "red" }}>王清是傻逼</h1>
-    </div>
-  );
-}
+// React.createElement 参数是 babel编译后的结果 第三个参数及以后都是子节点
+// React.createElement 返回的是虚拟dom
+let ele = React.createElement(
+  "div", // 标签 type
+  // 属性 props
+  {
+    style: {
+      color: "red",
+    },
+  },
+  "haha nihao !", // 文本节点
+  // Element的实例节点
+  React.createElement(
+    "h1",
+    null,
+    "hello word",
+    React.createElement("span", null, "wade")
+  )
+);
 
-export default App;
+/* 
+ 原始节点
+    <div style={{ color: "red" }}>
+      haha nihao !
+      <h1 >
+        hello word
+        <span>wade</span>
+      </h1>
+    </div>
+
+*/
+
+ReactDOM.render(ele, document.getElementById("root"));

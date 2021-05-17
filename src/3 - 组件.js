@@ -12,8 +12,7 @@ import ReactDOM from "react-dom";
     - 函数式(静态)组件：
         hooks 专门为了解决函数式组件的缺陷
 
-    - 类组件: 必须有render方法
-
+    - 类组件: 必须有render方法 可以没有constructor 一旦写了 必须要写super()
 
 */
 
