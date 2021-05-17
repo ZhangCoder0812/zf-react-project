@@ -1,0 +1,31 @@
+import React from "react";
+import List from "./components/List";
+
+class App extends React.Component {
+    state = {
+        arr: [1, 2, 3, 4, 5],
+    };
+
+    render() {
+        let { arr } = this.state;
+        return (
+            <div>
+                <List data={arr} />
+                <List>
+                    <h1>wade</h1> {/* 相当于插槽 */}
+                </List>
+                <List    {/* 扩展功能  名字随意取 一般叫render*/}
+                    render={item => { 
+                        return <h3>{item}</h3>;
+                    }}
+                >
+                    {" "}
+                 
+                    <h1>wade</h1>
+                </List>
+            </div>
+        );
+    }
+}
+
+export default App;
