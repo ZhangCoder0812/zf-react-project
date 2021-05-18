@@ -49,10 +49,10 @@ function App() {
                 {JSON.stringify(obj)}
                 {/*   {obj}  对象不能直接放结构里面 */}
                 <p dangerouslySetInnerHTML={{ __html: t }}></p>
-                {/* 不能使用 javascript:;  可以使用# 或者 自己基于JS阻止默认行为 */}
-                <a href="#" onClick={ev => ev.preventDefault()}>
-                    立即下载
-                </a>
+                {/* 不能使用 javascript:;  可以使用#后者自己基于JS阻止默认行为 */}
+            <a href="#" className="header-download" onClick={ev => ev.preventDefault()}>
+                立即下载
+            </a>
             </div>
         </>
     );
