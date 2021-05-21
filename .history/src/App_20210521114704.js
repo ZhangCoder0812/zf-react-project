@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 
 function App() {
-   
+    let context = useContext();
     return (
         <div>
             <App></App>
