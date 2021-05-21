@@ -1,0 +1,42 @@
+import React from "react";
+
+/* 
+   1. ref 获取节点(被废弃 目前还可以使用) 可以放在元素和组件上
+          (必须是类组件 一个实例 不能是函数式组件)
+      用法：ref='xxx'  this.refs.xxx
+   
+   2. createRef 最新的方式
+            
+    
+*/
+
+class Child extends React.Component {
+    render() {
+        return <div>Child</div>;
+    }
+}
+
+class App extends React.Component {
+    state = {
+        xxx: React.createRef,
+    };
+    www = React.createRef;
+    fn = () => {
+        console.log(this.state.xxx);
+        // 和原生获取的节点相同
+        console.log(this.state.xxx === document.querySelector("h1"));
+        // 获取组件
+        console.log(this.state.child);
+    };
+    render() {
+        return (
+            <div>
+                <h1 ref={this.state.xxx}>我是h1标签</h1>
+                <Child ref={this.state.www} />
+                <button onClick={this.fn}>获取h1</button>
+            </div>
+        );
+    }
+}
+
+export default App;

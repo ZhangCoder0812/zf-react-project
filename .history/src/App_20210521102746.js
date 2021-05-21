@@ -3,46 +3,37 @@ import React, { useState } from "react";
 /* 
  自定义hooks 抽离公共逻辑
    函数名必须是 use 开头 否则函数内部用不了 hooks 。
-   
+   普通函数不能使用hooks
 */
-// 普通函数不能使用hooks （可以把hooks作为参数传给普通函数使用）
-function fn(hook) {
-    return hook(100);
-}
-function App2() {
-    let [count, setCount] = fn(useState);
-    return <div onClick={() => setCount(count + 100)}>hooks作为参数传给普通函数---{count}</div>;
-}
 
-function useCount(n, step, max) {
+function useCount(n) {
     let [count, setCount] = useState(n);
+    // 不单单只是加 还有一些其他的逻辑
     function add() {
-        if (count + step > max) {
-            alert(`大于${max} 不能再加了`);
+        if (count + 10 > 150) {
+            alert("大于150 不能再加了");
         } else {
-            setCount(count + step);
+            setCount(count + 10);
         }
     }
     return [count, add];
 }
 
-function App1() {
-    let [count, add] = useCount(10, 20, 60); // 初始值20 每次加20 不能超过60
+function App() {
+    let [count, add] = useCount(100,);
     return (
         <div>
-            <h1>App1 当前{count}</h1>
+            <h1> 当前{count}</h1>
             <button onClick={add}>++</button>
         </div>
     );
 }
 
 function App() {
-    let [count, add] = useCount(100, 10, 150); // 初始值100 每次加10 不能超过150
+    let [count, add] = useCount(100);
     return (
         <div>
-            <App1 />
-            <App2 />
-            <h1>App 当前{count}</h1>
+            <h1> 当前{count}</h1>
             <button onClick={add}>++</button>
         </div>
     );

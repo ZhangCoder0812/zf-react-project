@@ -10,8 +10,8 @@ function fn(hook) {
     return hook(100);
 }
 function App2() {
-    let [count, setCount] = fn(useState);
-    return <div onClick={() => setCount(count + 100)}>hooks作为参数传给普通函数---{count}</div>;
+    let [count] = fn(useState);
+    return <div onClick={()=>}>-------{count}</div>;
 }
 
 function useCount(n, step, max) {
