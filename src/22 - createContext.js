@@ -3,6 +3,7 @@ import React from "react";
 /* 
     React.createContext 创建一个上下文 父组件通过value属性提供(.Provider)一些属性
      那么所有的后代组价都可以获取到 类似于 provide/inject 
+     类组件/函数式组件都可以使用
 
      老版上下文: getChildContext
 */
