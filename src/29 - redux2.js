@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import store from "./store";
+import store from "./store/1- index redux";
 
 function Child() {
     const handleName = () => {

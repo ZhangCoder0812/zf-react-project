@@ -2,19 +2,22 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
-// import store from "./store";
-import store from "./store/index2"; // 多个reducer
-import { Provider } from "react-redux";
+import store from "./store"; // redux的基本使用
+// import store from "./store-多个reducer"; // 多个reducer
+// import store from "./store-redux-thunk"; 
+// import store from './store -myRedux/1 - index'// react-redux配合自己的redux
+// import { Provider } from "react-redux";
+import { Provider } from "./my-react-redux"
 
 ReactDOM.render(
-    <Provider store={store}>
-        <App className="我是父组件传的值" />
-    </Provider>,
+  <Provider store={store}>
+    <App className="我是父组件传的值" />
+  </Provider>,
 
-    // <React.StrictMode> 严格模式可能会导致多次渲染
-    //   <App />
-    // </React.StrictMode>,
-    document.getElementById("root")
+  // <React.StrictMode> 严格模式可能会导致多次渲染
+  //   <App />
+  // </React.StrictMode>,
+  document.getElementById("root")
 );
 
 /* 

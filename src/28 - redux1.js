@@ -1,5 +1,5 @@
 import React from "react";
-import store from "./store";
+import store from "./store/1- index redux";
 /* 
     安装：npm i redux -S
     redux 数据管理模型 跟react没关系
