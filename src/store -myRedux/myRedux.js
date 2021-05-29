@@ -1,35 +1,26 @@
-/* 
-
-  redux 导出一个createStore方法，createStore执行返回一个对象包含三个方法  
-
-*/
 let cb = [];
-
-export function createStore(reducer) {
+//createStore 不但接受reducer 还接受一个中间件函数
+export function createStore(reducer, fn) {
   let state; // 用来存储那些state
 
   function getState() {
     return JSON.parse(JSON.stringify(state));
   }
-
-  // redux内部会先执行一次reducer，dispatch执行会触发reducer执行
-  // reducer 的返回值是一个对象 用来更新state
-  // reducer 执行 satate 更新 再让cb中用户存的函数执行 然后视图就刷新了
   function dispatch(action) {
     state = reducer(state, action);
     cb.forEach((fn) => fn());
   }
   dispatch({ type: "@types/redux.dasdaxa" });
-
-  // subscribe接受一个函数 将其保存起来
-  // subscribe返回值一个函数 用于将添加的fn移除
   function subscribe(fn) {
     cb.push(fn);
     return () => {
       cb = cb.filter((item) => item !== fn);
     };
   }
-
+  // 如果使用了中间件 就返回fn的执行结果
+  if (typeof fn === "function") {
+    return fn(createStore)(reducer);
+  }
   return {
     getState,
     dispatch,
@@ -37,24 +28,61 @@ export function createStore(reducer) {
   };
 }
 
-// combineReducers 接受一个对象 返回值一个reducer 因为返回值是createStore的参数
 export function combineReducers(obj) {
   return function reducer(state, action) {
-    /*  要把state变成这样
-         state => {
-            CountReducer:{
-                 count:100
-              },
-            NameReducer:{
-              name: "wade"
-            }
-          }
-    */
-    console.log(obj);
     state = state || {};
     Object.keys(obj).forEach((key) => {
       state[key] = obj[key](state[key], action);
     });
     return state;
+  };
+}
+
+/* 
+  中间件的执行结果是一个函数 接受参数createStore 
+  中间件的执行结果会把原先的dispatch替换，因为原先的dispatch接受的是一个对象
+  现在使用thunk之后dispatch接受的是一个函数
+*/
+// export function applyMiddleware(middleWare) {
+//   // 这个函数就是上面的createStore参数中的 fn
+//   return function (createStore) {
+//     // fn的执行结果 因为上面用了中间件所以走到了这里 但是还是要把原本因该正常返回的store对象返回出去
+//     // 只有createStore执行才会返回store对象 而且需要reducer参数 。 所以这里又包了一层函数
+//     return function (reducer) {
+//       // 这里执行createStore没有传中间件 所以上面createStore内部就正常返回store对象了
+//       let store = createStore(reducer);
+//       // 下面这两个是看thunk内部 createThunkMiddleware()方法写的
+//       let temp1 = middleWare(store); // 这个中间件要执行 如：thunk执行 thunk()
+//       let newDispatch = temp1(store.dispatch);
+//       return {
+//         ...store,
+//         dispatch: newDispatch, // 替换原有的dispatch
+//       };
+//     };
+//   };
+// }
+
+function curring(...fns) {
+  let last = fns.pop();
+  return function c(...arg) {
+    return fns.reduceRight((prev, next) => {
+      return next(prev);
+    }, last(...arg));
+  };
+}
+
+// 多个middleWare 要替换dispatch 使用柯理化挨个执行
+export function applyMiddleware(...middleWares) {
+  return function (createStore) {
+    return function (reducer) {
+      let store = createStore(reducer);
+      let temp1s = middleWares.map((item) => item(store));
+      let combinedTemp = curring(...temp1s);
+      let newDispatch = combinedTemp(store.dispatch);
+      return {
+        ...store,
+        dispatch: newDispatch,
+      };
+    };
   };
 }

@@ -1,5 +1,5 @@
 // import { createStore } from "redux";
-import { createStore } from "./1- myRedux";
+import { createStore } from "./myRedux";
  
 function reducer(state, action) {
    

@@ -2,18 +2,22 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
-import store from "./store"; // redux的基本使用
+// import store from "./store"; // redux的基本使用
 // import store from "./store-多个reducer"; // 多个reducer
-// import store from "./store-redux-thunk"; 
-// import store from './store -myRedux/1 - index'// react-redux配合自己的redux
-// import { Provider } from "react-redux";
-import { Provider } from "./my-react-redux"
+// import store from "./store-redux-thunk";
+import store from "./store -myRedux/index"; //redux原理
+import { Provider } from "react-redux";
+// import { Provider } from "./my-react-redux";
+import { HashRouter, BrowserRouter } from "react-router-dom";
 
+// 路由和redux同时存在，一般用Provider包裹HashRouter
+// BrowserRouter 即 history
 ReactDOM.render(
   <Provider store={store}>
-    <App className="我是父组件传的值" />
+    <BrowserRouter>
+      <App className="我是父组件传的值" />
+    </BrowserRouter>
   </Provider>,
-
   // <React.StrictMode> 严格模式可能会导致多次渲染
   //   <App />
   // </React.StrictMode>,

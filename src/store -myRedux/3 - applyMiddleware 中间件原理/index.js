@@ -1,8 +1,5 @@
 import { createStore, combineReducers, applyMiddleware } from "./myRedux";
-// import { createStore, combineReducers, applyMiddleware } from "redux";
-//import thunk from "redux-thunk";
-import thunk from "../插件原理/my-redux-thunk";
-import logger from "./logge中间件"; 
+import thunk from "redux-thunk";
 import * as types from "./actionTypes";
 
 function CountReducer(state, action) {
@@ -40,6 +37,6 @@ let RootReducer = combineReducers({
   NameReducer,
 });
 
-let store = createStore(RootReducer, applyMiddleware(thunk, logger)); // 使用多个中间件
+let store = createStore(RootReducer, applyMiddleware(thunk));
 
 export default store;
