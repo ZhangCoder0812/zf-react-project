@@ -19,6 +19,7 @@ class App extends React.Component {
 
    // 我们可以将接口放在action中 但是action必须要返回对象 对于异步没法同步返回一个对象
    // 这时就用到了 redux-thunk
+   // 此时这个 dispatch 已经不是原生store里的dispatch，而是经过redux-thunk处理过的dispatch
    this.props.dispatch(add(10));
 
   };
