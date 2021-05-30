@@ -7,9 +7,9 @@ import {
   withRouter,
   Switch,
 } from "react-router-dom";
-import Home from "./pages/home";
-import About from "./pages/about";
-import List from "./pages/list";
+import Home from "./pages-路由基础/home";
+import About from "./pages-路由基础/about";
+import List from "./pages-路由基础/list";
 
 /* 
  
