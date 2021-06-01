@@ -13,11 +13,11 @@ const Layout = loadable({
 
 function App() {
   return (
-    <div>
-      <Protect path="/" component={Layout}></Protect>
+    <Switch>
       <Route path="/login" component={Login}></Route>
       <Route path="/404" render={() => <h1>404</h1>}></Route>
-    </div>
+      <Protect path="/" level={2} component={Layout}></Protect>
+    </Switch>
   );
 }
 

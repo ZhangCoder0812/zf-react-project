@@ -2,7 +2,7 @@ import React from "react";
 import { Route, NavLink, Redirect, withRouter, Switch } from "react-router-dom";
 
 let isLogin = true;
-let userLevel = 2;
+let userLevel = 7;
 class Protect extends React.Component {
   componentDidMount() {
     console.log("Project组件");
@@ -10,7 +10,7 @@ class Protect extends React.Component {
   render() {
     let { path, component: Comp, level, ...pastProps } = this.props;
     return (
-      <div>
+      <>
         <Route
           path={path}
           render={(props) => {
@@ -26,7 +26,7 @@ class Protect extends React.Component {
             }
           }}
         ></Route>
-      </div>
+      </>
     );
   }
 }

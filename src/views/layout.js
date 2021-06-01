@@ -1,21 +1,22 @@
-import React from "react";
-import { Layout } from "antd";
+import { Layout } from 'antd';
+import '../css/layout.css'
+import MyRoutes from '../router/myRoutes'
+import MySlider from '../components/myslider'
 
-const { Header, Footer, Sider, Content } = Layout;
-
+const { Header, Footer, Content } = Layout;
 function MyLayout() {
-  return (
-    <div>
+  return <div className='layout_box'>
+    <Layout className='ant_layout'>
+      <MySlider />
       <Layout>
-        <Sider>Sider</Sider>
-        <Layout>
-          <Header>Header</Header>
-          <Content>Content</Content>
-          <Footer>Footer</Footer>
-        </Layout>
+        <Header>Header</Header>
+        <Content>
+          <MyRoutes></MyRoutes>
+        </Content>
+        <Footer>Footer</Footer>
       </Layout>
-    </div>
-  );
+    </Layout>
+  </div>
 }
 
-export default MyLayout;
+export default MyLayout
